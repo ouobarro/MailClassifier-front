@@ -1,0 +1,71 @@
+<header>
+  <div>
+    <h1 style="text-align: center;">Classification des messageries électroniques</h1>
+  </div>
+
+  <!--
+    <div>
+      <br/>
+      <button class="btn btn-info" style="margin-left: 200px"> Envoyés </button>
+      <button class="btn btn-info" style="margin-left: 30px">Réçus</button>
+      <button class="btn btn-info" style="margin-left: 30px">Statistiques</button>
+    </div>
+    -->
+</header>
+
+<div id="side">
+  <div class="bg-info p-2 text-center">
+    <span class="text-white font-weight-bold" >Liste des mails</span>
+  </div>
+
+  <ul class="nav nav-list" *ngFor="let mail of mailList">
+    <li class="nav-item active" (click)="switchToMail(mail.id)">
+      <a class="nav-link text-info text-nowrap" routerLinkActive="active">{{mail.subject}}</a>
+    </li>
+  </ul>
+</div>
+
+<div id="content" >
+
+  <div class="bg-light p-3" *ngIf="mailToShow" >
+    <div class="row">
+      <div class="col-10">
+        <h4 class="text-primary ml-2">{{mailToShow.subject}}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="card p-3">
+          <div>
+            <label>Envoyé par:</label><span class="text-info"> {{mailToShow.sender.emailAddress}}</span>
+          </div>
+          <div>
+            <label>Date: </label> {{mailToShow.sendDate  | date:"dd/MM/yy, h:mm a"}}
+          </div>
+        </div>
+        </div>
+      <div class="col-6">
+        <div class="card receiver-pane">
+          <div class="card-header bg-secondary">
+            <span class="text-white font-weight-bold">Envoyé à: </span>
+          </div>
+          <div class="card-body pl-3">
+            <table>
+              <tr *ngFor="let receiver of mailToShow.receiverList">
+                <td>{{receiver.emailAddress}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <div class="card p-3">
+          <span style="white-space: pre-line"> {{mailToShow.content}} </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
