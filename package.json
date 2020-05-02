@@ -14,7 +14,6 @@
     "node": "~12.15.0",
     "npm": "~6.13.7"
   },
-
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.0.0",
