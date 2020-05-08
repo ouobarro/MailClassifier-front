@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {Mail, Person} from './model';
+import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person} from './model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MailService {
 
-  // private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = 'http://localhost:8080/api';
 
-  private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
+  // private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
  // headers = new HttpHeaders().set('Content-Type', 'application/json');
   httpOptions = {
     headers: new HttpHeaders({
@@ -28,9 +28,9 @@ export class MailService {
     return this.http.get<Mail[]>(`${this.baseUrl}/mails`);
   }
 
-  // Get all mail
-  getMailListByPerson(id: number): Observable<Array<Mail>> {
-    return this.http.get<Mail[]>(`${this.baseUrl}/mails/person/${id}`);
+  // Get mail by email
+  getMailListByEmail(idEmail: number): Observable<Array<Mail>> {
+    return this.http.get<Mail[]>(`${this.baseUrl}/mails/email/${idEmail}`);
   }
 
   // Get all person
@@ -43,12 +43,44 @@ export class MailService {
     return this.http.get(`${this.baseUrl}/personnes/${id}`);
   }
 
+  // Get a person by name
+  getPersonByName(name: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/personnes/${name}`);
+  }
+
+// Get all email
+  getAllEmail(): Observable<Array<Email>> {
+    return this.http.get<Email[]>(`${this.baseUrl}/emails`);
+  }
+
+// Get all links
+  getAllLink(): Observable<Array<Link>> {
+    return this.http.get<Link[]>(`${this.baseUrl}/links`);
+  }
+
+  // Get all attachments
+  getAllAttachment(): Observable<Array<Attachment>> {
+    return this.http.get<Attachment[]>(`${this.baseUrl}/attachments`);
+  }
+
+// Get all attachments types
+  getAllAttachType(): Observable<Array<AttachType>> {
+    return this.http.get<AttachType[]>(`${this.baseUrl}/attachTypes`);
+  }
+
+  // Get all broadcast list
+  getAllBroadcastList(): Observable<Array<BroadcastList>> {
+    return this.http.get<BroadcastList[]>(`${this.baseUrl}/broadcastList`);
+  }
+
+
+
+  /*
   // get all mails by idPerson
   getMailByPerson(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/mails/${id}`);
   }
-
-
+*/
   // Error handling
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';

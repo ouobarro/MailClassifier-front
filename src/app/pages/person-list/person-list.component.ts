@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Mail, Person} from '../../services/model';
+import {AttachType, Email, Link, Mail, Person, Attachment, BroadcastList} from '../../services/model';
 import {MailService} from '../../services/mail.service';
 import {Router} from '@angular/router';
 
@@ -13,7 +13,16 @@ export class PersonListComponent implements OnInit {
 
   persons: Array<Person>;
   mailList: Array<Mail>;
+  emailList: Array<Email>;
+  linkList: Array<Link>;
+  attachList: Array<Attachment>;
+  attachTypeList: Array<AttachType>;
+  broadList: Array<BroadcastList>;
+
+
   mailToShow: Mail = null;
+  stat = false;
+  pers = false;
 
   showMailList = false;
 
@@ -23,14 +32,21 @@ export class PersonListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.getAllPerson();
     this.getAllMail();
+    this.getAllEmail();
+    this.getAllLink();
+    this.getAllAttachment();
+    this.getAllAttachType();
+    this.getAllBroadcastList();
     console.log(this.mailList);
   }
-  getMailByPerson() {
-    this.getMailListByPerson(7);
+  getMailByEmail() {
+    this.getMailListByEmail(7);
   }
 
-
+  // mails
   getAllMail() {
     this.mailService.getAllMail().subscribe(
       data => {
@@ -42,8 +58,68 @@ export class PersonListComponent implements OnInit {
     );
   }
 
-  getMailListByPerson(idPerson: number) {
-    this.mailService.getMailByPerson(idPerson).subscribe(
+  // email
+  getAllEmail() {
+    this.mailService.getAllEmail().subscribe(
+      data => {
+        this.emailList = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
+  // links
+  getAllLink() {
+    this.mailService.getAllLink().subscribe(
+      data => {
+        this.linkList = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
+  // attachments
+  getAllAttachment() {
+    this.mailService.getAllAttachment().subscribe(
+      data => {
+        this.attachList = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
+  // attachments type
+  getAllAttachType() {
+    this.mailService.getAllAttachType().subscribe(
+      data => {
+        this.attachTypeList = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
+  // broadcast list
+  getAllBroadcastList() {
+    this.mailService.getAllBroadcastList().subscribe(
+      data => {
+        this.broadList = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
+  getMailListByEmail(idPerson: number) {
+    this.mailService.getMailListByEmail(idPerson).subscribe(
       data => {
         // this.mails = data;
       },
@@ -64,6 +140,28 @@ export class PersonListComponent implements OnInit {
     );
   }
 
+  getPersonByName(name: string) {
+    this.mailService.getPersonByName(name).subscribe(
+      data => {
+        // this.mails = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
+  getPersonById(idPerson: number) {
+    this.mailService.getPersonById(idPerson).subscribe(
+      data => {
+        // this.mails = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
+  }
+
   switchToMail(id: number) {
     this.showMailList = true;
     console.log('MAIL_ID: ', id);
@@ -73,6 +171,13 @@ export class PersonListComponent implements OnInit {
         console.log('MAIL: ', mail.subject);
       }
     }
+  }
+
+  affichStat() {
+    this.stat = true;
+  }
+  affichPers() {
+    this.pers = true;
   }
 
 }

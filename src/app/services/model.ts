@@ -3,25 +3,38 @@ export class BroadcastList {
   libelle: string;
 }
 
+export class AttachType {
+  id: number;
+  attachTypeName: string;
+}
+
 export class Attachment {
   id: number;
   attachPath: string;
   name: string;
   mailId: number;
+  attachTypeDto: AttachType;
 }
 
 export class Link {
   id: number;
   url: string;
-  libelle: string;
-  target: string;
   mailId: number;
 }
 
 export class Person {
   id: number;
   name: string;
-  emailAddress: string;
+  emailListDto: Array<Email>;
+}
+
+export class Email {
+  id: number;
+  eaddress: string;
+  signature: string;
+  personDto: Person;
+  bclDto: BroadcastList;
+  mailDtoList: Array<Mail>;
 }
 
 export class Mail {
@@ -29,9 +42,9 @@ export class Mail {
   subject: string;
   content: string;
   sendDate: Date;
-  bclDto: BroadcastList;
   attachListDto: Array<Attachment>;
   linkListDto: Array<Link>;
-  sender: Person;
-  receiverList: Array<Person>;
+  emailDto: Email;
+  receiverList: Array<Email>;
+  receiverCcList: Array<Email>;
 }

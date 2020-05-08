@@ -8,7 +8,7 @@ import { ChoixComponent } from './pages/choix/choix.component';
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'person-list'},
+  { path: '', pathMatch: 'full', redirectTo: 'home'},
   { path: 'home', component: HomeComponent },
   { path: 'mail-detail/:id', component: MailDetailComponent },
   { path: 'person-list', component: PersonListComponent },
