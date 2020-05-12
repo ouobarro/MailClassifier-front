@@ -1,1 +1,16 @@
-<p>mail-detail works!</p>
+<div>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="text-infos" style="color: dodgerblue">Liste des personnes</h4>
+    </div>
+    <ul class="nav nav-list" *ngFor="let person of persons">
+      <li class="nav-item active" (click)="switchToPerson(person.id)">
+        <a class="nav-link text-info" (click)="detailPerson(person.id)">{{person.name}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="personToShow">
+
+  </div>
+</div>

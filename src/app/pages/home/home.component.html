@@ -1,42 +1,44 @@
 <div class="container main-content">
   <br>
   <div class="text-center alert">
-    <h2 style="text-align: center;">Classification des messageries électroniques</h2>
+    <h2 style="text-align: center;">Messageries électroniques de la liste des présidents</h2>
   </div>
   <div>
     <ul>
+
+        <!--<button><a  class="nav-link text-info text-nowrap" (click)="affichStat()">Statistiques</a></button>-->
+        <!--<div class="card-body pl-3">-->
       <li>
-        <button><a  class="nav-link text-info text-nowrap" (click)="affichStat()">Statistiques</a></button>
-        <div class="card-body pl-3" *ngIf="stat">
           <div>
             <label>nombre de personnes:</label> <span class="text-info"> {{persons.length}}</span>
           </div>
+      </li>
+      <li>
           <div>
             <label>Nombre d'emails: </label> <span class="text-info"> {{emailList.length}}</span>
           </div>
+      </li>
+      <li>
           <div>
             <label>Nombre de liens:</label> <span class="text-info"> {{linkList.length}}</span>
           </div>
+      </li>
+      <li>
           <div>
             <label>Nombre de pièces jointes:</label> <span class="text-info"> {{attachList.length}}</span>
           </div>
+      </li>
+      <li>
           <div>
             <label>Nombre de liste de diffusion:</label> <span class="text-info"> {{broadList.length}}</span>
           </div>
-        </div>
       </li>
+
       <li>
         <button class="mt-3"><a routerLink="../person-list" class="nav-link text-info text-nowrap" routerLinkActive="active">Consulter les mails</a></button>
       </li>
       <li>
-        <button class="mt-3"><a (click)="affichPers()" class="nav-link text-info text-nowrap" routerLinkActive="active">Consulter la liste des personnes</a></button>
-        <div *ngIf="pers">
-          <ul class="nav nav-list" *ngFor="let person of persons">
-            <li class="nav-item active">
-              <a class="nav-link text-info text-nowrap">{{person.name}}</a>
-            </li>
-          </ul>
-        </div>
+        <button class="mt-3"><a routerLink="../mail-detail" class="nav-link text-info text-nowrap" routerLinkActive="active">Consulter la liste des personnes</a></button>
       </li>
 
     </ul>

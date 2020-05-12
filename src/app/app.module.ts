@@ -10,6 +10,8 @@ import { PersonListComponent } from './pages/person-list/person-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import {MailService} from './services/mail.service';
 import { ChoixComponent } from './pages/choix/choix.component';
+import { NgxLoadingModule } from 'ngx-loading';
+import { PersonInfosComponent } from './pages/person-infos/person-infos.component';
 
 
 @NgModule({
@@ -18,12 +20,14 @@ import { ChoixComponent } from './pages/choix/choix.component';
     MailDetailComponent,
     PersonListComponent,
     HomeComponent,
-    ChoixComponent
+    ChoixComponent,
+    PersonInfosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [MailService],
   bootstrap: [AppComponent]

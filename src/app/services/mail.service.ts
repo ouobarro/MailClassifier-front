@@ -9,9 +9,9 @@ import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person} from '
 })
 export class MailService {
 
-  // private baseUrl = 'http://localhost:8080/api';
+   private baseUrl = 'http://localhost:8080/api';
 
-  private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
+  
  // headers = new HttpHeaders().set('Content-Type', 'application/json');
   httpOptions = {
     headers: new HttpHeaders({
