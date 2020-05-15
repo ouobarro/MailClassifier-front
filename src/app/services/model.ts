@@ -48,3 +48,17 @@ export class Mail {
   receiverList: Array<Email>;
   receiverCcList: Array<Email>;
 }
+
+export class PersonMail {
+  email: string;
+  mailList: Array<Mail>;
+}
+
+export class DataCount {
+  attachCount: number;
+  bclCount: number;
+  linkCount: number;
+  personCount: number;
+  emailCount: number;
+  mailCount: number;
+}

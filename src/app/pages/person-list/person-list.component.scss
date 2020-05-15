@@ -1,26 +1,6 @@
-HEADER {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 78px;
-  border-bottom: 1px solid #ddd;
-}
-
-HEADER .controls {
-  padding: 8px 16px;
-}
-HEADER .controls h1 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: normal;
-  color: #DD4B39;
-  display: inline-block;
-  width: 160px;
-}
 #side {
   position: absolute;
-  top: 79px;
+  top: 160px;
   left: 0;
   bottom: 0;
   padding: 8px;
@@ -30,7 +10,7 @@ HEADER .controls h1 {
 }
 #content {
   position: absolute;
-  top: 79px;
+  top: 160px;
   left: 281px;
   bottom: 0;
   right: 0;
@@ -50,4 +30,23 @@ HEADER .controls h1 {
   min-height: 100px;
   max-height: 200px;
   overflow: auto;
+}
+
+.item-style{
+  background-color: darkgray;
+  color: #f8f9fc;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+
+.item-style:hover{
+  color: #f8f9fc;
+  border-radius: 15px;
+}
+
+a:hover{
+  background-color: #36b9cc;
+  color: #f8f9fc;
+  font-weight: bold;
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person} from '../../services/model';
+import {Attachment, AttachType, BroadcastList, DataCount, Email, Link, Mail, Person} from '../../services/model';
 import {MailService} from '../../services/mail.service';
 import {Router} from '@angular/router';
+import {GlobalService} from '../../services/global.service';
 
 @Component({
   selector: 'app-home',
@@ -11,31 +12,19 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  stat = false;
-  pers = false;
-
   persons: Array<Person>;
-  mailList: Array<Mail>;
-  emailList: Array<Email>;
-  linkList: Array<Link>;
-  attachList: Array<Attachment>;
-  attachTypeList: Array<AttachType>;
-  broadList: Array<BroadcastList>;
+  dataCount: DataCount;
 
   constructor(
     private mailService: MailService,
-    private router: Router
+    public globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
-
-    this.getAllPerson();
-    this.getAllMail();
-    this.getAllEmail();
-    this.getAllLink();
-    this.getAllAttachment();
-    this.getAllAttachType();
-    this.getAllBroadcastList();
+    this.getDataCount();
+    if (!this.globalService.mailList) {
+      this.getAllMail();
+    }
   }
 
 
@@ -43,67 +32,7 @@ export class HomeComponent implements OnInit {
   getAllMail() {
     this.mailService.getAllMail().subscribe(
       data => {
-        this.mailList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // email
-  getAllEmail() {
-    this.mailService.getAllEmail().subscribe(
-      data => {
-        this.emailList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // links
-  getAllLink() {
-    this.mailService.getAllLink().subscribe(
-      data => {
-        this.linkList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // attachments
-  getAllAttachment() {
-    this.mailService.getAllAttachment().subscribe(
-      data => {
-        this.attachList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // attachments type
-  getAllAttachType() {
-    this.mailService.getAllAttachType().subscribe(
-      data => {
-        this.attachTypeList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // broadcast list
-  getAllBroadcastList() {
-    this.mailService.getAllBroadcastList().subscribe(
-      data => {
-        this.broadList = data;
+        this.globalService.mailList = data;
       },
       error => {
         console.log('Impossible de récupérer les données');
@@ -123,11 +52,15 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  affichStat() {
-    this.stat = true;
-  }
-  affichPers() {
-    this.pers = true;
+  async getDataCount() {
+     await this.mailService.dataCount().subscribe(
+      result => {
+        this.dataCount = result;
+      },
+      error => {
+        console.log('Erreur d\'accès aux données');
+      }
+    );
   }
 
 }

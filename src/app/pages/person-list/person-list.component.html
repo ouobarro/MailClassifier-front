@@ -1,18 +1,3 @@
-<header>
-  <div>
-    <h1 style="text-align: center;">Classification des messageries électroniques</h1>
-  </div>
-
-  <!--
-    <div>
-      <br/>
-      <button class="btn btn-info" style="margin-left: 200px"> Envoyés </button>
-      <button class="btn btn-info" style="margin-left: 30px">Réçus</button>
-      <button class="btn btn-info" style="margin-left: 30px">Statistiques</button>
-    </div>
-    -->
-</header>
-
 <div id="side">
   <div class="bg-info p-2 text-center">
     <span class="text-white font-weight-bold">Liste des mails ({{mailList.length}})</span>
@@ -20,8 +5,8 @@
 
 
   <ul class="nav nav-list" *ngFor="let mail of mailList">
-    <li class="nav-item active" (click)="switchToMail(mail.id)">
-      <a class="nav-link text-info text-nowrap" routerLinkActive="active">{{mail.subject}}</a>
+    <li class="nav-item text-info" (click)="switchToMail(mail.id)">
+      <a class="nav-link text-nowrap" [ngClass]="{'item-style': currentMailId === mail.id}">{{mail.subject}}</a>
     </li>
   </ul>
 </div>
@@ -71,7 +56,7 @@
             </table>
           </div>
           <div class="card-body pl-3" *ngIf="mailToShow.receiverList.length == 0">
-            <span class="font-weight-bold"> Aucun destinateur pour ce mail </span>
+            <span class="text-warning text-center"> Aucun destinateur pour ce mail </span>
           </div>
         </div>
       </div>
@@ -89,7 +74,7 @@
             </table>
           </div>
           <div class="card-body pl-3" *ngIf="mailToShow.receiverCcList.length == 0">
-            <span class="font-weight-bold"> Aucun destinateur en copie pour ce mail </span>
+            <span class="text-warning text-center"> Aucun destinateur en copie pour ce mail </span>
           </div>
         </div>
       </div>
@@ -102,7 +87,7 @@
           <span style="white-space: pre-line"> {{mailToShow.content}} </span>
         </div>
         <div class="card p-3" *ngIf="mailToShow.content.length == 0">
-          <span class="font-weight-bold"> Aucun contenu </span>
+          <span class="text-warning text-center"> Aucun contenu </span>
         </div>
       </div>
     </div>

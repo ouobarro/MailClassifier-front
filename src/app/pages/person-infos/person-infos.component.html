@@ -1,1 +1,24 @@
-<p>person-infos works!</p>
+
+<h2>Informations sur la personne Sur la personne</h2>
+
+<hr/>
+<div class="container-fluid" >
+  <label><b>Nombre de mails envoyés : </b></label>
+    <div class="card" *ngFor="let mailSended of mailListSended">
+      <h6 class="text-info">Email: {{mailSended.email}}</h6>
+      <h6 class="text-info">Nombre: {{mailSended.mailList.length}}</h6>
+    </div>
+
+  <label><b>Nombre de mails reçus : </b></label>
+    <div class="card" *ngFor="let mailReceived of mailListReceived">
+      <h6 class="text-info">Email: {{mailReceived.email}}</h6>
+      <h6 class="text-info">Nombre: {{mailReceived.mailList.length}}</h6>
+    </div>
+
+
+  <label><b>Nombre de mails reçus en copie : </b></label>
+    <div class="card" *ngFor="let mailReceivedCc of mailListReceivedCc">
+      <h6 class="text-info">Email: {{mailReceivedCc.email}}</h6>
+      <h6 class="text-info">Nombre: {{mailReceivedCc.mailList.length}}</h6>
+    </div>
+</div>

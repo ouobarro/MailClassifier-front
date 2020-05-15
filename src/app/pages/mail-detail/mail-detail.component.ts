@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person} from '../../services/model';
+import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person, PersonMail} from '../../services/model';
 import {MailService} from '../../services/mail.service';
 import {Router} from '@angular/router';
+import {GlobalService} from '../../services/global.service';
 
 @Component({
   selector: 'app-mail-detail',
@@ -11,116 +12,34 @@ import {Router} from '@angular/router';
 export class MailDetailComponent implements OnInit {
 
   persons: Array<Person>;
-  mailList: Array<Mail>;
-  emailList: Array<Email>;
-  linkList: Array<Link>;
-  attachList: Array<Attachment>;
-  attachTypeList: Array<AttachType>;
-  broadList: Array<BroadcastList>;
-
-
-  mailToShow: Mail = null;
+  currentPersId = 0;
   personToShow: Person = null;
-  stat = false;
-  pers = false;
 
-  showMailList = false;
+  emailAddressList: Array<Email>;
+
+  mailListSended: Array<PersonMail> = new Array<PersonMail>();
+  mailListReceived: Array<PersonMail> = new Array<PersonMail>();
+  mailListReceivedCc: Array<PersonMail> = new Array<PersonMail>();
+
   showPersonInfo = false;
 
   constructor(
     private mailService: MailService,
-    private router: Router
+    public globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
+    if (!this.globalService.personList) {
+      this.getAllPerson();
+    } else {
+      this.persons = this.globalService.personList;
+    }
 
-    this.getAllPerson();
-    this.getAllMail();
-    this.getAllEmail();
-    this.getAllLink();
-    this.getAllAttachment();
-    this.getAllAttachType();
-    this.getAllBroadcastList();
-    console.log(this.mailList);
-  }
-  getMailByEmail() {
-    this.getMailListByEmail(7);
   }
 
-  // mails
-  getAllMail() {
-    this.mailService.getAllMail().subscribe(
-      data => {
-        this.mailList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
 
-  // email
-  getAllEmail() {
-    this.mailService.getAllEmail().subscribe(
-      data => {
-        this.emailList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // links
-  getAllLink() {
-    this.mailService.getAllLink().subscribe(
-      data => {
-        this.linkList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // attachments
-  getAllAttachment() {
-    this.mailService.getAllAttachment().subscribe(
-      data => {
-        this.attachList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // attachments type
-  getAllAttachType() {
-    this.mailService.getAllAttachType().subscribe(
-      data => {
-        this.attachTypeList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  // broadcast list
-  getAllBroadcastList() {
-    this.mailService.getAllBroadcastList().subscribe(
-      data => {
-        this.broadList = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  getMailListByEmail(idPerson: number) {
-    this.mailService.getMailListByEmail(idPerson).subscribe(
+  getMailListByEmail(idEmail: number) {
+    this.mailService.getMailListByEmail(idEmail).subscribe(
       data => {
         // this.mails = data;
       },
@@ -134,6 +53,7 @@ export class MailDetailComponent implements OnInit {
     this.mailService.getAllPerson().subscribe(
       result => {
         this.persons = result;
+        this.globalService.personList = result;
       },
       error => {
         console.log('Erreur d\'accès aux données');
@@ -141,41 +61,9 @@ export class MailDetailComponent implements OnInit {
     );
   }
 
-  getPersonByName(name: string) {
-    this.mailService.getPersonByName(name).subscribe(
-      data => {
-        // this.mails = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  getPersonById(idPerson: number) {
-    this.mailService.getPersonById(idPerson).subscribe(
-      data => {
-        // this.mails = data;
-      },
-      error => {
-        console.log('Impossible de récupérer les données');
-      }
-    );
-  }
-
-  switchToMail(id: number) {
-    this.showMailList = true;
-    console.log('MAIL_ID: ', id);
-    for (const mail of this.mailList) {
-      if (mail.id === id) {
-        this.mailToShow = mail;
-        console.log('MAIL: ', mail.subject);
-      }
-    }
-  }
-
-  switchToPerson(id: number) {
+  async switchToPerson(id: number) {
     this.showPersonInfo = true;
+    this.currentPersId = id;
     console.log('Person_ID: ', id);
     for (const person of this.persons) {
       if (person.id === id) {
@@ -183,11 +71,82 @@ export class MailDetailComponent implements OnInit {
         console.log('PERSON: ', Person.name);
       }
     }
+    await this.getEmailAddressList(id);
   }
 
-  detailPerson(id: number) {
-    this.router.navigate(['person-infos', id]);
+  /* ========================================================================================== \
+   *            Person info manage functions
+   *
+   ============================================================================================ */
+
+  async getEmailAddressList(id: number) {
+    this.emailAddressList = new Array<Email>();
+    this.mailListSended = new Array<PersonMail>();
+    this.mailListReceived = new Array<PersonMail>();
+    this.mailListReceivedCc = new Array<PersonMail>();
+    await this.mailService.getPersonEmailList(id).subscribe(
+      data => {
+        this.emailAddressList = data;
+        console.log('Recupération des adresses: ' + data.length);
+        this.getMapSendedMailList(data);
+        this.getMapReceivedMailList(data);
+        this.getMapReceivedCcMailList(data);
+      },
+      error => {
+        console.log('Erreur de recupération des données !');
+      }
+    );
   }
 
+  async getMapSendedMailList(emailAddressList: Array<Email>) {
+    for (const email of emailAddressList) {
+      const personMail = new PersonMail();
+      personMail.email = email.eaddress;
+      await this.mailService.getMailListByEmail(email.id).subscribe(
+        data => {
+          personMail.mailList = data;
+        },
+        error => {
+          console.log('Impossible de récuperer les mails envoyés pour emailId = ', email.id);
+        }
+      );
+      this.mailListSended.push(personMail);
+    }
+    console.log('end fetch !');
+  }
+
+  async getMapReceivedMailList(emailAddressList: Array<Email>) {
+    for (const email of emailAddressList) {
+      const personMail = new PersonMail();
+      personMail.email = email.eaddress;
+      await this.mailService.getReceivedMailByEmailId(email.id).subscribe(
+        data => {
+          personMail.mailList = data;
+        },
+        error => {
+          console.log('Impossible de récuperer les mails envoyés pour emailId = ', email.id);
+        }
+      );
+      this.mailListReceived.push(personMail);
+    }
+    console.log('end fetch !');
+  }
+
+  async getMapReceivedCcMailList(emailAddressList: Array<Email>) {
+    for (const email of emailAddressList) {
+      const personMail = new PersonMail();
+      personMail.email = email.eaddress;
+      await this.mailService.getReceivedCcMailByEmailId(email.id).subscribe(
+        data => {
+          personMail.mailList = data;
+        },
+        error => {
+          console.log('Impossible de récuperer les mails envoyés pour emailId = ', email.id);
+        }
+      );
+      this.mailListReceivedCc.push(personMail);
+    }
+    console.log('end fetch !');
+  }
 
 }

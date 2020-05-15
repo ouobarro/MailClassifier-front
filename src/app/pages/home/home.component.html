@@ -1,47 +1,66 @@
-<div class="container main-content">
-  <br>
-  <div class="text-center alert">
-    <h2 style="text-align: center;">Messageries électroniques de la liste des présidents</h2>
-  </div>
-  <div>
-    <ul>
+<div class="container">
 
-        <!--<button><a  class="nav-link text-info text-nowrap" (click)="affichStat()">Statistiques</a></button>-->
-        <!--<div class="card-body pl-3">-->
-      <li>
-          <div>
-            <label>nombre de personnes:</label> <span class="text-info"> {{persons.length}}</span>
+  <div class="p-2">
+    <div class="row">
+      <div class="col-4">
+        <div class="card border-left-info bg-light h-100">
+          <div class="card-body text-center">
+            <span class="text-center" style="font-size: 3.5em">{{dataCount.bclCount}}</span>
+            <h4>Listes de diffusions</h4>
           </div>
-      </li>
-      <li>
-          <div>
-            <label>Nombre d'emails: </label> <span class="text-info"> {{emailList.length}}</span>
-          </div>
-      </li>
-      <li>
-          <div>
-            <label>Nombre de liens:</label> <span class="text-info"> {{linkList.length}}</span>
-          </div>
-      </li>
-      <li>
-          <div>
-            <label>Nombre de pièces jointes:</label> <span class="text-info"> {{attachList.length}}</span>
-          </div>
-      </li>
-      <li>
-          <div>
-            <label>Nombre de liste de diffusion:</label> <span class="text-info"> {{broadList.length}}</span>
-          </div>
-      </li>
+        </div>
+      </div>
 
-      <li>
-        <button class="mt-3"><a routerLink="../person-list" class="nav-link text-info text-nowrap" routerLinkActive="active">Consulter les mails</a></button>
-      </li>
-      <li>
-        <button class="mt-3"><a routerLink="../mail-detail" class="nav-link text-info text-nowrap" routerLinkActive="active">Consulter la liste des personnes</a></button>
-      </li>
+      <div class="col-4">
+        <div class="card border-left-primary bg-light h-100">
+          <div class="card-body text-center">
+            <span class="text-center" style="font-size: 3.5em">{{dataCount.personCount}}</span>
+            <h4>Personnes</h4>
+          </div>
+        </div>
+      </div>
 
-    </ul>
+      <div class="col-4">
+        <div class="card border-left-success bg-light h-100">
+          <div class="card-body text-center">
+            <span class="text-center" style="font-size: 3.5em">{{dataCount.emailCount}}</span>
+            <h4>Adresses emails</h4>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-4">
+        <div class="card border-left-secondary bg-light h-100">
+          <div class="card-body text-center">
+            <span class="text-center" style="font-size: 3.5em">{{dataCount.mailCount}}</span>
+            <h4>Mails</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card border-left-warning bg-light h-100">
+          <div class="card-body text-center">
+            <span class="text-center" style="font-size: 3.5em">{{dataCount.attachCount}}</span>
+            <h4>Pièces jointes</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card border-left-danger bg-light h-100">
+          <div class="card-body text-center">
+            <span class="text-center" style="font-size: 3.5em">{{dataCount.linkCount}}</span>
+            <h4>Liens</h4>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </div>
 

@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person} from './model';
+import {Attachment, AttachType, BroadcastList, DataCount, Email, Link, Mail, Person} from './model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MailService {
 
-   private baseUrl = 'http://localhost:8080/api';
+   //private baseUrl = 'http://localhost:8080/api';
 
-  // private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
+   private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
  // headers = new HttpHeaders().set('Content-Type', 'application/json');
   httpOptions = {
     headers: new HttpHeaders({
@@ -48,6 +48,18 @@ export class MailService {
     return this.http.get(`${this.baseUrl}/personnes/${name}`);
   }
 
+  getPersonEmailList(idPerson: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/emails/personne/${idPerson}`);
+  }
+
+  getReceivedMailByEmailId(idEmail: number): Observable<Array<Mail>> {
+    return this.http.get<Array<Mail>>(`${this.baseUrl}/mails/received-mail/${idEmail}`);
+  }
+
+  getReceivedCcMailByEmailId(idEmail: number): Observable<Array<Mail>> {
+    return this.http.get<Array<Mail>>(`${this.baseUrl}/mails/received-cc-mail/${idEmail}`);
+  }
+
 // Get all email
   getAllEmail(): Observable<Array<Email>> {
     return this.http.get<Email[]>(`${this.baseUrl}/emails`);
@@ -55,7 +67,7 @@ export class MailService {
 
 // Get all links
   getAllLink(): Observable<Array<Link>> {
-    return this.http.get<Link[]>(`${this.baseUrl}/links`);
+    return this.http.get<Array<Link>>(`${this.baseUrl}/links`);
   }
 
   // Get all attachments
@@ -73,14 +85,10 @@ export class MailService {
     return this.http.get<BroadcastList[]>(`${this.baseUrl}/broadcastList`);
   }
 
-
-
-  /*
-  // get all mails by idPerson
-  getMailByPerson(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/mails/${id}`);
+  dataCount(): Observable<DataCount> {
+    return this.http.get<DataCount>(`${this.baseUrl}/data-count`);
   }
-*/
+
   // Error handling
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';
