@@ -1,32 +1,31 @@
 <div id="side">
   <div class="bg-info p-2 text-center">
-    <span class="text-white font-weight-bold">Liste des personnes ({{persons.length}})</span>
+    <span class="text-white font-weight-bold">Liste des personnes morales ({{personsM.length}})</span>
   </div>
 
-  <div *ngIf="defaultPerson">
-    <ul class="nav nav-list" *ngFor="let person of persons">
-      <li class="nav-item text-info" (click)="switchToPerson(person.id)">
-        <a class="nav-link text-nowrap" [ngClass]="{'item-style': person.id === 2479}">{{person.name}}</a>
+  <div *ngIf="defaultPersonM">
+    <ul class="nav nav-list" *ngFor="let person of personsM">
+      <li class="nav-item text-info" (click)="switchToPersonM(person.id)">
+        <a class="nav-link text-nowrap" [ngClass]="{'item-style': person.id === 825}">{{person.name}}</a>
       </li>
     </ul>
   </div>
 
-  <div *ngIf="defaultPerson === null">
-    <ul class="nav nav-list" *ngFor="let person of persons">
-      <li class="nav-item text-info" (click)="switchToPerson(person.id)">
-        <a class="nav-link text-nowrap" [ngClass]="{'item-style': currentPersId == person.id}">{{person.name}}</a>
+  <div *ngIf="defaultPersonM === null">
+    <ul class="nav nav-list" *ngFor="let person of personsM">
+      <li class="nav-item text-info" (click)="switchToPersonM(person.id)">
+        <a class="nav-link text-nowrap" [ngClass]="{'item-style': currentPersMId == person.id}">{{person.name}}</a>
       </li>
     </ul>
   </div>
-
 
 </div>
 
 <div id="content">
 
-  <div class="pl-3 pr-3 border-top" *ngIf="personToShow">
+  <div class="pl-3 pr-3 border-top" *ngIf="personMToShow">
     <div class="row bg-light pt-3 pb-2 pl-2">
-      <h4 class="text-dark ml-3">{{personToShow.name}}</h4>
+      <h4 class="text-dark ml-3">{{personMToShow.name}}</h4>
     </div>
 
 
@@ -85,12 +84,12 @@
   </div>
 </div>
 
-<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="contenu" *ngIf="defaultPerson">
+<!------------------------------------------------------------------------------------->
+<div id="contenu" *ngIf="defaultPersonM">
 
   <div class="pl-3 pr-3 border-top" >
     <div class="row bg-light pt-3 pb-2 pl-2">
-      <h4 class="text-dark ml-3">{{defaultPerson.name}}</h4>
+      <h4 class="text-dark ml-3">{{defaultPersonM.name}}</h4>
     </div>
 
 
@@ -148,6 +147,5 @@
     </div>
   </div>
 </div>
-
 
 

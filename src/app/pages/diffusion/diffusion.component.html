@@ -1,0 +1,12 @@
+<div id="side">
+  <div class="bg-info p-2 text-center">
+    <span class="text-white font-weight-bold">Liste de diffusion ({{bclList.length}})</span>
+  </div>
+
+
+  <ul class="nav nav-list" *ngFor="let bcl of bclList">
+    <li class="nav-item text-info">
+      <a class="nav-link text-nowrap">{{bcl.libelle}}</a>
+    </li>
+  </ul>
+</div>

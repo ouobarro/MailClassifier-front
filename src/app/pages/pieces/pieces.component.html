@@ -1,0 +1,12 @@
+<div id="side">
+  <div class="bg-info p-2 text-center">
+    <span class="text-white font-weight-bold">Liste des pièces jointes ({{attachList.length}})</span>
+  </div>
+
+
+  <ul class="nav nav-list" *ngFor="let attach of attachList">
+    <li class="nav-item text-info">
+      <a class="nav-link text-nowrap">{{attach.name}}</a>
+    </li>
+  </ul>
+</div>

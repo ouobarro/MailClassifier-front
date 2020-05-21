@@ -28,6 +28,12 @@ export class Person {
   emailListDto: Array<Email>;
 }
 
+export class PersonMoral {
+  id: number;
+  name: string;
+  emailListDto: Array<Email>;
+}
+
 export class Email {
   id: number;
   eaddress: string;
@@ -54,11 +60,17 @@ export class PersonMail {
   mailList: Array<Mail>;
 }
 
+export class PersonMoralMail {
+  email: string;
+  mailList: Array<Mail>;
+}
+
 export class DataCount {
   attachCount: number;
   bclCount: number;
   linkCount: number;
   personCount: number;
+  personMoralCount: number;
   emailCount: number;
   mailCount: number;
 }

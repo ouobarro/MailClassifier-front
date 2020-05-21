@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person, PersonMail} from '../../services/model';
+import {Email, Person, PersonMail, PersonMoral} from '../../services/model';
 import {MailService} from '../../services/mail.service';
-import {Router} from '@angular/router';
 import {GlobalService} from '../../services/global.service';
 
 @Component({
-  selector: 'app-mail-detail',
-  templateUrl: './mail-detail.component.html',
-  styleUrls: ['./mail-detail.component.scss']
+  selector: 'app-person-moral',
+  templateUrl: './person-moral.component.html',
+  styleUrls: ['./person-moral.component.scss']
 })
-export class MailDetailComponent implements OnInit {
+export class PersonMoralComponent implements OnInit {
 
-  persons: Array<Person>;
-  currentPersId = 0;
-  personToShow: Person = null;
-  defaultPerson: Person = null;
+  personsM: Array<PersonMoral>;
+  currentPersMId = 0;
+  personMToShow: PersonMoral = null;
+  defaultPersonM: PersonMoral = null;
 
   emailAddressList: Array<Email>;
 
@@ -22,7 +21,7 @@ export class MailDetailComponent implements OnInit {
   mailListReceived: Array<PersonMail> = new Array<PersonMail>();
   mailListReceivedCc: Array<PersonMail> = new Array<PersonMail>();
 
-  showPersonInfo = false;
+  showPersonMInfo = false;
 
   constructor(
     private mailService: MailService,
@@ -30,12 +29,12 @@ export class MailDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getDefaultPerson(2479);
-    this.switchToDefaultPerson(2479);
-    if (!this.globalService.personList) {
-      this.getAllPerson();
+    this.getDefaultPersonMoral(825);
+    this.switchToDefaultPersonMoral(825);
+    if (!this.globalService.personMList) {
+      this.getAllPersonMoral();
     } else {
-      this.persons = this.globalService.personList;
+      this.personsM = this.globalService.personMList;
     }
 
   }
@@ -52,11 +51,11 @@ export class MailDetailComponent implements OnInit {
     );
   }
 
-  getAllPerson() {
-    this.mailService.getAllPerson().subscribe(
+  getAllPersonMoral() {
+    this.mailService.getAllPersonMoral().subscribe(
       result => {
-        this.persons = result;
-        this.globalService.personList = result;
+        this.personsM = result;
+        this.globalService.personMList = result;
       },
       error => {
         console.log('Erreur d\'accès aux données');
@@ -64,21 +63,21 @@ export class MailDetailComponent implements OnInit {
     );
   }
 
-  async switchToPerson(id: number) {
-    this.showPersonInfo = true;
-    this.currentPersId = id;
+  async switchToPersonM(id: number) {
+    this.showPersonMInfo = true;
+    this.currentPersMId = id;
     console.log('Person_ID: ', id);
-    for (const person of this.persons) {
+    for (const person of this.personsM) {
       if (person.id === id) {
-        this.personToShow = person;
-        this.defaultPerson = null;
+        this.personMToShow = person;
+        this.defaultPersonM = null;
         console.log('PERSON: ', Person.name);
       }
     }
     await this.getEmailAddressList(id);
   }
 
-  async switchToDefaultPerson(id: number) {
+  async switchToDefaultPersonMoral(id: number) {
     await this.getEmailAddressList(id);
   }
 
@@ -92,7 +91,7 @@ export class MailDetailComponent implements OnInit {
     this.mailListSended = new Array<PersonMail>();
     this.mailListReceived = new Array<PersonMail>();
     this.mailListReceivedCc = new Array<PersonMail>();
-    await this.mailService.getPersonEmailList(id).subscribe(
+    await this.mailService.getPersonMoralEmailList(id).subscribe(
       data => {
         this.emailAddressList = data;
         console.log('Recupération des adresses: ' + data.length);
@@ -157,10 +156,10 @@ export class MailDetailComponent implements OnInit {
     console.log('end fetch !');
   }
 
-  getDefaultPerson(idPerson: number) {
-    this.mailService.getPersonById(idPerson).subscribe(
+  getDefaultPersonMoral(idPersonM: number) {
+    this.mailService.getPersonMoralById(idPersonM).subscribe(
       data => {
-        this.defaultPerson = data;
+        this.defaultPersonM = data;
       },
       error => {
         console.log('Impossible de récupérer les données');

@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Classification des messagerie électroniques professionnelles';
+  id = 0;
+
+  clickable(id: number) {
+    this.id = id;
+  }
 }

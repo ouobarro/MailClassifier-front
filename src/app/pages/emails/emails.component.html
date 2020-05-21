@@ -1,0 +1,12 @@
+<div id="side">
+  <div class="bg-info p-2 text-center">
+    <span class="text-white font-weight-bold">Liste des adresses mails ({{emailList.length}})</span>
+  </div>
+
+
+  <ul class="nav nav-list" *ngFor="let email of emailList">
+    <li class="nav-item text-info">
+      <a class="nav-link text-nowrap">{{email.eaddress}}</a>
+    </li>
+  </ul>
+</div>

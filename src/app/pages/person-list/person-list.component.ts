@@ -14,6 +14,7 @@ export class PersonListComponent implements OnInit {
 
   mailList: Array<Mail>;
   currentMailId = 0;
+  defaultMail: Mail = null;
 
 
   mailToShow: Mail = null;
@@ -28,14 +29,13 @@ export class PersonListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (!this.globalService.mailList) {
-      console.log('GLOBAL LIST IS NULL');
+    this.getDefaultMail(4743);
+    if (!this.globalService.bclList) {
       this.getAllMail();
     } else {
       console.log('GLOBAL LIST IS NOT NULL');
       this.mailList = this.globalService.mailList;
     }
-
   }
   getMailByEmail() {
     this.getMailListByEmail(7);
@@ -82,16 +82,21 @@ export class PersonListComponent implements OnInit {
     for (const mail of this.mailList) {
       if (mail.id === id) {
         this.mailToShow = mail;
+        this.defaultMail = null;
         console.log('MAIL: ', mail.subject);
       }
     }
   }
 
-  affichStat() {
-    this.stat = true;
-  }
-  affichPers() {
-    this.pers = true;
+  getDefaultMail(idMail: number) {
+    this.mailService.getMailById(idMail).subscribe(
+      data => {
+        this.defaultMail = data;
+      },
+      error => {
+        console.log('Impossible de récupérer les données');
+      }
+    );
   }
 
 }

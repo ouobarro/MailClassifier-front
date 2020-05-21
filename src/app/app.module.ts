@@ -12,6 +12,11 @@ import {MailService} from './services/mail.service';
 import { ChoixComponent } from './pages/choix/choix.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { PersonInfosComponent } from './pages/person-infos/person-infos.component';
+import { PersonMoralComponent } from './pages/person-moral/person-moral.component';
+import { DiffusionComponent } from './pages/diffusion/diffusion.component';
+import { EmailsComponent } from './pages/emails/emails.component';
+import { LiensComponent } from './pages/liens/liens.component';
+import { PiecesComponent } from './pages/pieces/pieces.component';
 
 
 @NgModule({
@@ -21,7 +26,12 @@ import { PersonInfosComponent } from './pages/person-infos/person-infos.componen
     PersonListComponent,
     HomeComponent,
     ChoixComponent,
-    PersonInfosComponent
+    PersonInfosComponent,
+    PersonMoralComponent,
+    DiffusionComponent,
+    EmailsComponent,
+    LiensComponent,
+    PiecesComponent
   ],
   imports: [
     BrowserModule,
