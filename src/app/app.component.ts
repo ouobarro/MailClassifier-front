@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {MailService} from './services/mail.service';
+import {GlobalService} from './services/global.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +10,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Classification des messagerie électroniques professionnelles';
-  id = 0;
+
+  constructor(
+    public globalService: GlobalService,
+  ) { }
 
   clickable(id: number) {
-    this.id = id;
+    this.globalService.navId = id;
   }
 }

@@ -13,4 +13,6 @@ export class GlobalService {
   emailList: Array<Email> = null;
   linkList: Array<Link> = null;
   attachList: Array<Attachment> = null;
+
+  navId = 0;
 }

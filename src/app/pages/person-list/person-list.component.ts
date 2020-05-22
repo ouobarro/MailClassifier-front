@@ -90,9 +90,11 @@ export class PersonListComponent implements OnInit {
   redirectTo(email: Email) {
     if (email.personDto) {
       this.router.navigate(['/mail-detail'], { queryParams: { personDtoId: email.personDto.id } });
+      this.globalService.navId = 3;
     } else if (email.personMoralDto) {
       console.log('\t>>>REDIRECT TO PERSON MORAL');
       this.router.navigate(['/person-moral'], { queryParams: { personDtoId: email.personMoralDto.id } });
+      this.globalService.navId = 4;
     }
   }
 
