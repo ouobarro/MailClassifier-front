@@ -3,15 +3,8 @@
     <span class="text-white font-weight-bold">Liste des mails ({{mailList.length}})</span>
   </div>
 
-  <div *ngIf="defaultMail">
-    <ul class="nav nav-list" *ngFor="let mail of mailList">
-      <li class="nav-item text-info" (click)="switchToMail(mail.id)">
-        <a class="nav-link text-nowrap" [ngClass]="{'item-style': mail.id === 4743}">{{mail.subject}}</a>
-      </li>
-    </ul>
-  </div>
 
-  <div *ngIf="defaultMail === null">
+  <div>
     <ul class="nav nav-list" *ngFor="let mail of mailList">
       <li class="nav-item text-info" (click)="switchToMail(mail.id)">
         <a class="nav-link text-nowrap" [ngClass]="{'item-style': currentMailId === mail.id}">{{mail.subject}}</a>
@@ -38,7 +31,7 @@
           </div>
           <div class="card-body pl-3">
             <div>
-              <label>Email:</label> <span class="text-info"> {{mailToShow.emailDto.eaddress}}</span>
+              <label>Email:</label> <a class="text-info" (click)="redirectTo(mailToShow.emailDto)"> {{mailToShow.emailDto.eaddress}}</a>
             </div>
             <div *ngIf="mailToShow.emailDto.personDto">
               <label>Nom: </label> <span> {{mailToShow.emailDto.personDto.name}}</span>
@@ -59,7 +52,7 @@
           <div class="card-body pl-3" *ngIf="mailToShow.receiverList.length > 0">
             <table>
               <tr *ngFor="let receiver of mailToShow.receiverList">
-                <td>{{receiver.eaddress}}</td>
+                <td><a class="text-info" (click)="redirectTo(receiver)">{{receiver.eaddress}}</a></td>
               </tr>
             </table>
           </div>
@@ -77,7 +70,7 @@
           <div class="card-body pl-3" *ngIf="mailToShow.receiverCcList.length > 0">
             <table>
               <tr *ngFor="let receiverCc of mailToShow.receiverCcList">
-                <td>{{receiverCc.eaddress}}</td>
+                <td><a class="text-info" (click)="redirectTo(receiverCc)">{{receiverCc.eaddress}}</a></td>
               </tr>
             </table>
           </div>
@@ -145,129 +138,4 @@
 
 </div>
 
-
-<!----------------------------------------------------------------------->
-<div id="contenu" *ngIf="defaultMail">
-  <!-- Links -->
-  <div class="bg-light p-3" >
-    <div class="row">
-      <div class="col-10">
-        <h4 class="text-primary ml-2">{{defaultMail.subject}}</h4>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-4">
-        <div class="card receiver-pane">
-          <div class="card-header bg-secondary">
-            <span class="text-white font-weight-bold">Infos emetteur</span>
-          </div>
-          <div class="card-body pl-3">
-            <div>
-              <label>Email:</label> <span class="text-info"> {{defaultMail.emailDto.eaddress}}</span>
-            </div>
-            <div *ngIf="defaultMail.emailDto.personDto">
-              <label>Nom: </label> <span> {{defaultMail.emailDto.personDto.name}}</span>
-            </div>
-            <div>
-              <label>Date:</label> <span> {{defaultMail.sendDate | date: "dd/MM/yyy HH:mm"}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="card receiver-pane">
-          <div class="card-header bg-secondary">
-            <span class="text-white font-weight-bold">Envoyé à: </span>
-          </div>
-
-          <div class="card-body pl-3" *ngIf="defaultMail.receiverList.length > 0">
-            <table>
-              <tr *ngFor="let receiver of defaultMail.receiverList">
-                <td>{{receiver.eaddress}}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="card-body pl-3" *ngIf="defaultMail.receiverList.length == 0">
-            <span class="text-warning text-center"> Aucun destinateur pour ce mail </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="card receiver-pane">
-          <div class="card-header bg-secondary">
-            <span class="text-white font-weight-bold">Copie à</span>
-          </div>
-          <div class="card-body pl-3" *ngIf="defaultMail.receiverCcList.length > 0">
-            <table>
-              <tr *ngFor="let receiverCc of defaultMail.receiverCcList">
-                <td>{{receiverCc.eaddress}}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="card-body pl-3" *ngIf="defaultMail.receiverCcList.length == 0">
-            <span class="text-warning text-center"> Aucun destinateur en copie pour ce mail </span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="row mt-2">
-      <div class="col-12">
-        <div class="card p-3" *ngIf="defaultMail.content.length > 0">
-          <span style="white-space: pre-line"> {{defaultMail.content}} </span>
-        </div>
-        <div class="card p-3" *ngIf="defaultMail.content.length == 0">
-          <span class="text-warning text-center"> Aucun contenu </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-
-      <div class="col-6">
-        <div class="card ">
-          <div class="card-header bg-secondary">
-            <span class="text-white font-weight-bold">Liens contenus dans le mail</span>
-          </div>
-          <div class="card-body pl-3" *ngIf="defaultMail.linkListDto.length > 0">
-            <table>
-              <tr *ngFor="let link of defaultMail.linkListDto">
-                <td><a href="#">{{link.url}}</a></td>
-              </tr>
-            </table>
-          </div>
-          <div class="card-body" *ngIf="defaultMail.linkListDto.length == 0">
-            <span class="text-warning text-center"> Aucun lien pour ce mail</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div class="card receiver-pane">
-          <div class="card-header bg-secondary">
-            <span class="text-white font-weight-bold">Pièces jointes contenues dans le mail</span>
-          </div>
-          <div class="card-body pl-3" *ngIf="defaultMail.attachListDto.length > 0">
-            <table>
-              <tr *ngFor="let attach of defaultMail.attachListDto">
-                <td>{{attach.name}}</td><td class="text-primary"><i class="fas fa-download ml-2"></i></td>
-              </tr>
-            </table>
-          </div>
-
-          <div class="card-body" *ngIf="defaultMail.attachListDto.length == 0">
-            <span class="text-warning text-center"> Aucune pièce jointe pour ce mail</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
 

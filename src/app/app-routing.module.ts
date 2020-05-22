@@ -9,7 +9,7 @@ import { PersonMoralComponent } from './pages/person-moral/person-moral.componen
 import { LiensComponent } from './pages/liens/liens.component';
 import { DiffusionComponent } from './pages/diffusion/diffusion.component';
 import { PiecesComponent } from './pages/pieces/pieces.component';
-import { EmailsComponent } from './pages/emails/emails.component'
+import { EmailsComponent } from './pages/emails/emails.component';
 
 
 const routes: Routes = [

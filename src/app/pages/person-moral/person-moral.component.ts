@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Email, Person, PersonMail, PersonMoral} from '../../services/model';
 import {MailService} from '../../services/mail.service';
 import {GlobalService} from '../../services/global.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-person-moral',
@@ -25,16 +26,27 @@ export class PersonMoralComponent implements OnInit {
 
   constructor(
     private mailService: MailService,
-    public globalService: GlobalService
+    public globalService: GlobalService,
+    private activeRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.getDefaultPersonMoral(825);
-    this.switchToDefaultPersonMoral(825);
+    this.activeRoute.queryParams.subscribe(params => {
+      this.currentPersMId = Number(params.personDtoId) || 0;
+    });
     if (!this.globalService.personMList) {
       this.getAllPersonMoral();
     } else {
       this.personsM = this.globalService.personMList;
+      if (this.currentPersMId !== 0) {
+        this.switchToPersonM(this.currentPersMId);
+        this.scroll(this.currentPersMId);
+      } else {
+        this.personMToShow = this.personsM[0];
+        this.currentPersMId = this.personMToShow.id;
+        this.getEmailAddressList(this.personMToShow.id);
+      }
+
     }
 
   }
@@ -53,11 +65,19 @@ export class PersonMoralComponent implements OnInit {
 
   getAllPersonMoral() {
     this.mailService.getAllPersonMoral().subscribe(
-      result => {
+      async result => {
         this.personsM = result;
         this.globalService.personMList = result;
+        if (this.currentPersMId !== 0) {
+          await this.switchToPersonM(this.currentPersMId);
+          this.scroll(this.currentPersMId);
+        } else {
+          this.personMToShow = this.personsM[0];
+          this.currentPersMId = this.personMToShow.id;
+          await this.getEmailAddressList(this.personMToShow.id);
+        }
       },
-      error => {
+        error => {
         console.log('Erreur d\'accès aux données');
       }
     );
@@ -66,18 +86,16 @@ export class PersonMoralComponent implements OnInit {
   async switchToPersonM(id: number) {
     this.showPersonMInfo = true;
     this.currentPersMId = id;
-    console.log('Person_ID: ', id);
-    for (const person of this.personsM) {
-      if (person.id === id) {
-        this.personMToShow = person;
-        this.defaultPersonM = null;
-        console.log('PERSON: ', Person.name);
-      }
-    }
-    await this.getEmailAddressList(id);
-  }
 
-  async switchToDefaultPersonMoral(id: number) {
+    if (this.personsM) {
+      for (const person of this.personsM) {
+        if (person.id === id) {
+          this.personMToShow = person;
+        }
+      }
+    } else {
+      await this.switchToPersonM(id);
+    }
     await this.getEmailAddressList(id);
   }
 
@@ -165,6 +183,13 @@ export class PersonMoralComponent implements OnInit {
         console.log('Impossible de récupérer les données');
       }
     );
+  }
+
+  scroll(id) {
+    console.log(`scrolling to ${id}`);
+    const identifier = 'person_id_' + id;
+    const elt = document.getElementById(id);
+    elt.scrollIntoView();
   }
 
 }

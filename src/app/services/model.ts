@@ -39,6 +39,7 @@ export class Email {
   eaddress: string;
   signature: string;
   personDto: Person;
+  personMoralDto: PersonMoral;
   bclDto: BroadcastList;
   mailDtoList: Array<Mail>;
 }

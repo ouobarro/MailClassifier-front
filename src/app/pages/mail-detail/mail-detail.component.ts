@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Attachment, AttachType, BroadcastList, Email, Link, Mail, Person, PersonMail} from '../../services/model';
 import {MailService} from '../../services/mail.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {GlobalService} from '../../services/global.service';
 
 @Component({
@@ -14,7 +14,6 @@ export class MailDetailComponent implements OnInit {
   persons: Array<Person>;
   currentPersId = 0;
   personToShow: Person = null;
-  defaultPerson: Person = null;
 
   emailAddressList: Array<Email>;
 
@@ -25,17 +24,28 @@ export class MailDetailComponent implements OnInit {
   showPersonInfo = false;
 
   constructor(
+    private activeRoute: ActivatedRoute,
     private mailService: MailService,
     public globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
-    this.getDefaultPerson(2479);
-    this.switchToDefaultPerson(2479);
+    this.activeRoute.queryParams.subscribe(params => {
+      this.currentPersId = Number(params.personDtoId) || 0;
+    });
+
     if (!this.globalService.personList) {
       this.getAllPerson();
     } else {
       this.persons = this.globalService.personList;
+      if (this.currentPersId !== 0) {
+        this.switchToPerson(this.currentPersId);
+        this.scroll(this.currentPersId);
+      } else {
+        this.personToShow = this.persons[0];
+        this.currentPersId = this.personToShow.id;
+        this.getEmailAddressList(this.personToShow.id);
+      }
     }
 
   }
@@ -52,11 +62,19 @@ export class MailDetailComponent implements OnInit {
     );
   }
 
-  getAllPerson() {
+  async getAllPerson() {
     this.mailService.getAllPerson().subscribe(
-      result => {
+      async result => {
         this.persons = result;
         this.globalService.personList = result;
+        if (this.currentPersId !== 0) {
+          await this.switchToPerson(this.currentPersId);
+          this.scroll(this.currentPersId);
+        } else {
+          this.personToShow = this.persons[0];
+          this.currentPersId = this.personToShow.id;
+          await this.getEmailAddressList(this.personToShow.id);
+        }
       },
       error => {
         console.log('Erreur d\'accès aux données');
@@ -67,18 +85,15 @@ export class MailDetailComponent implements OnInit {
   async switchToPerson(id: number) {
     this.showPersonInfo = true;
     this.currentPersId = id;
-    console.log('Person_ID: ', id);
-    for (const person of this.persons) {
-      if (person.id === id) {
-        this.personToShow = person;
-        this.defaultPerson = null;
-        console.log('PERSON: ', Person.name);
+    if (this.persons) {
+      for (const person of this.persons) {
+        if (person.id === id) {
+          this.personToShow = person;
+        }
       }
+    } else {
+      await this.switchToPerson(id);
     }
-    await this.getEmailAddressList(id);
-  }
-
-  async switchToDefaultPerson(id: number) {
     await this.getEmailAddressList(id);
   }
 
@@ -92,10 +107,10 @@ export class MailDetailComponent implements OnInit {
     this.mailListSended = new Array<PersonMail>();
     this.mailListReceived = new Array<PersonMail>();
     this.mailListReceivedCc = new Array<PersonMail>();
+    console.log('\t >> ID: ', id);
     await this.mailService.getPersonEmailList(id).subscribe(
       data => {
         this.emailAddressList = data;
-        console.log('Recupération des adresses: ' + data.length);
         this.getMapSendedMailList(data);
         this.getMapReceivedMailList(data);
         this.getMapReceivedCcMailList(data);
@@ -120,7 +135,6 @@ export class MailDetailComponent implements OnInit {
       );
       this.mailListSended.push(personMail);
     }
-    console.log('end fetch !');
   }
 
   async getMapReceivedMailList(emailAddressList: Array<Email>) {
@@ -137,7 +151,6 @@ export class MailDetailComponent implements OnInit {
       );
       this.mailListReceived.push(personMail);
     }
-    console.log('end fetch !');
   }
 
   async getMapReceivedCcMailList(emailAddressList: Array<Email>) {
@@ -154,13 +167,12 @@ export class MailDetailComponent implements OnInit {
       );
       this.mailListReceivedCc.push(personMail);
     }
-    console.log('end fetch !');
   }
 
   getDefaultPerson(idPerson: number) {
     this.mailService.getPersonById(idPerson).subscribe(
       data => {
-        this.defaultPerson = data;
+        // this.defaultPerson = data;
       },
       error => {
         console.log('Impossible de récupérer les données');
@@ -168,4 +180,23 @@ export class MailDetailComponent implements OnInit {
     );
   }
 
+  async getSelectedPerson(personId: number) {
+    if (this.persons) {
+      for (const pers of this.persons) {
+        if (pers.id === personId) {
+          this.personToShow = pers;
+          this.currentPersId = personId;
+        }
+      }
+    }
+  }
+
+  scroll(id) {
+    console.log(`scrolling to ${id}`);
+    const identifier = 'person_id_' + id;
+    const elt = document.getElementById(id);
+    elt.scrollIntoView();
+  }
+
 }
+

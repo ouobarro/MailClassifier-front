@@ -3,21 +3,11 @@
     <span class="text-white font-weight-bold">Liste des personnes ({{persons.length}})</span>
   </div>
 
-  <div *ngIf="defaultPerson">
     <ul class="nav nav-list" *ngFor="let person of persons">
-      <li class="nav-item text-info" (click)="switchToPerson(person.id)">
-        <a class="nav-link text-nowrap" [ngClass]="{'item-style': person.id === 2479}">{{person.name}}</a>
-      </li>
-    </ul>
-  </div>
-
-  <div *ngIf="defaultPerson === null">
-    <ul class="nav nav-list" *ngFor="let person of persons">
-      <li class="nav-item text-info" (click)="switchToPerson(person.id)">
+      <li [id]="'person_id_'+person.id" class="nav-item text-info" (click)="switchToPerson(person.id)">
         <a class="nav-link text-nowrap" [ngClass]="{'item-style': currentPersId == person.id}">{{person.name}}</a>
       </li>
     </ul>
-  </div>
 
 
 </div>
@@ -85,69 +75,6 @@
   </div>
 </div>
 
-<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="contenu" *ngIf="defaultPerson">
-
-  <div class="pl-3 pr-3 border-top" >
-    <div class="row bg-light pt-3 pb-2 pl-2">
-      <h4 class="text-dark ml-3">{{defaultPerson.name}}</h4>
-    </div>
-
-
-    <div class="p-2">
-
-      <div class="card bg-light border-left-info">
-        <div class="alert alert-info">
-          <h5>Mails envoyés </h5>
-        </div>
-        <div class="ml-3 mr-3" *ngFor="let sendedMail of mailListSended">
-          <label>Email: </label><span class="text-info"> {{sendedMail.email}}</span>
-          <div *ngIf="sendedMail.mailList.length > 0">
-            <label>Nombre: </label><span class=""> {{sendedMail.mailList.length}}</span>
-          </div>
-          <div *ngIf="sendedMail.mailList.length == 0">
-            <span class=""> Aucun mail envoyé</span>
-          </div>
-          <hr/>
-        </div>
-      </div>
-
-      <div class="card bg-light border-left-secondary mt-3">
-        <div class="alert alert-secondary">
-          <h5>Mails reçus </h5>
-        </div>
-        <div class="ml-3 mr-3" *ngFor="let sendedMail of mailListReceived">
-          <label>Email: </label><span class="text-info"> {{sendedMail.email}}</span>
-          <div *ngIf="sendedMail.mailList.length > 0">
-            <label>Nombre: </label><span class=""> {{sendedMail.mailList.length}}</span>
-          </div>
-          <div *ngIf="sendedMail.mailList.length == 0">
-            <span class=""> Aucun mail reçu</span>
-          </div>
-          <hr/>
-        </div>
-      </div>
-
-      <div class="card bg-light border-left-secondary mt-3">
-        <div class="alert alert-secondary">
-          <h5>Mails reçus en copie </h5>
-        </div>
-        <div class="ml-3 mr-3" *ngFor="let sendedMail of mailListReceivedCc">
-          <label>Email: </label><span class="text-info"> {{sendedMail.email}}</span>
-          <div *ngIf="sendedMail.mailList.length > 0">
-            <label>Nombre: </label><span class=""> {{sendedMail.mailList.length}}</span>
-          </div>
-          <div *ngIf="sendedMail.mailList.length == 0">
-            <span class=""> Aucun mail reçu en copie</span>
-          </div>
-          <hr/>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
 
 
 
