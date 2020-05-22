@@ -5,8 +5,71 @@
 
 
   <ul class="nav nav-list" *ngFor="let bcl of bclList">
-    <li class="nav-item text-info">
-      <a class="nav-link text-nowrap">{{bcl.libelle}}</a>
+    <li class="nav-item text-info" (click)="switchTobcl(bcl.id)">
+      <a class="nav-link text-nowrap" [ngClass]="{'item-style': currentBclId == bcl.id}">{{bcl.libelle}}</a>
     </li>
   </ul>
+</div>
+
+<div id="content">
+
+  <div class="pl-3 pr-3 border-top" *ngIf="bclToShow">
+    <div class="row bg-light pt-3 pb-2 pl-2">
+      <h4 class="text-dark ml-3">{{bclToShow.libelle}}</h4>
+    </div>
+
+
+    <div class="p-2">
+
+      <div class="card bg-light border-left-info">
+        <div class="alert alert-info">
+          <h5>Mails envoyés </h5>
+        </div>
+        <div class="ml-3 mr-3" *ngFor="let sendedMail of mailListSended">
+          <label>Email: </label><span class="text-info"> {{sendedMail.email}}</span>
+          <div *ngIf="sendedMail.mailList.length > 0">
+            <label>Nombre: </label><span class=""> {{sendedMail.mailList.length}}</span>
+          </div>
+          <div *ngIf="sendedMail.mailList.length == 0">
+            <span class=""> Aucun mail envoyé</span>
+          </div>
+          <hr/>
+        </div>
+      </div>
+
+      <div class="card bg-light border-left-secondary mt-3">
+        <div class="alert alert-secondary">
+          <h5>Mails reçus </h5>
+        </div>
+        <div class="ml-3 mr-3" *ngFor="let sendedMail of mailListReceived">
+          <label>Email: </label><span class="text-info"> {{sendedMail.email}}</span>
+          <div *ngIf="sendedMail.mailList.length > 0">
+            <label>Nombre: </label><span class=""> {{sendedMail.mailList.length}}</span>
+          </div>
+          <div *ngIf="sendedMail.mailList.length == 0">
+            <span class=""> Aucun mail reçu</span>
+          </div>
+          <hr/>
+        </div>
+      </div>
+
+      <div class="card bg-light border-left-secondary mt-3">
+        <div class="alert alert-secondary">
+          <h5>Mails reçus en copie </h5>
+        </div>
+        <div class="ml-3 mr-3" *ngFor="let sendedMail of mailListReceivedCc">
+          <label>Email: </label><span class="text-info"> {{sendedMail.email}}</span>
+          <div *ngIf="sendedMail.mailList.length > 0">
+            <label>Nombre: </label><span class=""> {{sendedMail.mailList.length}}</span>
+          </div>
+          <div *ngIf="sendedMail.mailList.length == 0">
+            <span class=""> Aucun mail reçu en copie</span>
+          </div>
+          <hr/>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
 </div>

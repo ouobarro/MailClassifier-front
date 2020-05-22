@@ -9,8 +9,8 @@ import {Attachment, AttachType, BroadcastList, DataCount, Email, Link, Mail, Per
 })
 export class MailService {
 
-   // private baseUrl = 'http://localhost:8080/api';
-  private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
+    private baseUrl = 'http://localhost:8080/api';
+  // private baseUrl = 'https://midoutraoretech.com/mailClassifier/api';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -101,6 +101,11 @@ export class MailService {
   // Get all broadcast list
   getAllBroadcastList(): Observable<Array<BroadcastList>> {
     return this.http.get<BroadcastList[]>(`${this.baseUrl}/broadcastList`);
+  }
+
+  // get broadcast list email
+  getBclEmailList(idBcl: number): Observable<Array<Email>> {
+    return this.http.get<Array<Email>>(`${this.baseUrl}/emails/broadcastlist/${idBcl}`);
   }
 
   dataCount(): Observable<DataCount> {

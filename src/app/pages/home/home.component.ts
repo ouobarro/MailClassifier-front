@@ -63,4 +63,8 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  clickable(id: number) {
+    this.globalService.navId = id;
+  }
+
 }

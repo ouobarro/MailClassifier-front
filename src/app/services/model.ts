@@ -1,6 +1,7 @@
 export class BroadcastList {
   id: number;
   libelle: string;
+  emailListDto: Array<Email>;
 }
 
 export class AttachType {

@@ -11,6 +11,9 @@
     <div (click)="clickable(4)">
       <a routerLink="/person-moral" class="nav-link text-white" routerLinkActive="active" [ngClass]="{'item-style': globalService.navId === 4}">Personnes morales</a>
     </div>
+    <div (click)="clickable(5)">
+    <a routerLink="/diffusion" class="nav-link text-white" routerLinkActive="active" [ngClass]="{'item-style': globalService.navId === 5}">Liste de diffusion</a>
+    </div>
 </nav>
 <div class="text-center mb-4 mt-3">
   <h2 style="text-align: center;">Messageries électroniques de la liste des présidents</h2>

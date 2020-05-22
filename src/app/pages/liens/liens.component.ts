@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BroadcastList, Link} from '../../services/model';
 import {MailService} from '../../services/mail.service';
 import {GlobalService} from '../../services/global.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-liens',
@@ -13,16 +14,15 @@ export class LiensComponent implements OnInit {
   linkList: Array<Link>;
 
   constructor(
+    private router: Router,
     private mailService: MailService,
     public globalService: GlobalService
   ) {}
 
   ngOnInit(): void {
     if (!this.globalService.bclList) {
-      console.log('GLOBAL LIST IS NULL');
       this.getAllLink();
     } else {
-      console.log('GLOBAL LIST IS NOT NULL');
       this.linkList = this.globalService.linkList;
     }
   }

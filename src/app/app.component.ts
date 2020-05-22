@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {MailService} from './services/mail.service';
 import {GlobalService} from './services/global.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Email} from './services/model';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,11 @@ export class AppComponent {
 
   constructor(
     public globalService: GlobalService,
+    private router: Router
   ) { }
 
   clickable(id: number) {
     this.globalService.navId = id;
   }
+
 }
