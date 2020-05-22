@@ -20,7 +20,7 @@ export class LiensComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.globalService.bclList) {
+    if (!this.globalService.linkList) {
       this.getAllLink();
     } else {
       this.linkList = this.globalService.linkList;
